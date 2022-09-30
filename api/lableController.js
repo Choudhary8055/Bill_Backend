@@ -1,11 +1,13 @@
 const express = require('express');
 const lableRouter = express.Router();
 
-const { addLable, updateById, getData, getDataById, searchByLable, searchByDate, getOldData} = require('../controllers/lableController');
+const { addLable, updateById,deleteLable, getData, getDataById, searchByLable, searchByDate, getOldData} = require('../../dao/Lable');
 
 lableRouter.post('/addlable', addLable);
 
 lableRouter.put('/update/:id', updateById);
+lableRouter.delete('/delete/:id', deleteLable);
+
 
 
 

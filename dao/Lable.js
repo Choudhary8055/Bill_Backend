@@ -1,4 +1,5 @@
 const Label = require('../model/Labels');
+
 const preData = require('../model/prevData');
 
 exports.addLable = async (req, resp) => {
@@ -17,6 +18,17 @@ exports.addLable = async (req, resp) => {
 		resp.status(400).json(error);
 	}
 };
+
+exports.getData = async (req, res) => {
+	try {
+		const data = await Label.find();
+		res.status(200).json(data);
+	} catch (error) {
+		console.log(error);
+		res.status(400).json(error);
+	}
+};
+
 
 exports.updateById = async (req, res) => {
 	try {
@@ -42,17 +54,22 @@ exports.updateById = async (req, res) => {
 	}
 };
 
+exports.deleteLable = async (req, res)=>{
+	try{
+		
+		const {id} = req.params.id;
+		// const deleteData = await Labels.deleteOne({'id':tempid});
+        console.log(deleteData);
+		const deleteData = await Label.deleteOne({ _id: id });
+		res.status(200).json(deleteData);
 
-exports.getData = async (req, res) => {
-	try {
-		const data = await Label.find();
-		res.status(200).json(data);
-	} catch (error) {
-		console.log(error);
-		res.status(400).json(error);
+	}catch(error){
+     res.status(400).json(error);
 	}
-};
+     
+}
 
+ 
 exports.searchByLable = async (req, res) => {
 		try {
 			const { lable } = req.params;

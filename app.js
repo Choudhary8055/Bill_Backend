@@ -3,13 +3,12 @@ const app = express();
 // const Label = require('./model/Labels');
 const cors = require('cors');
 
-require('./connection/config');
+require('./config/config');
 app.use(express.json());
 app.use(cors());
 
 
-app.use(require('./routes/lable'));
-
+app.use(require('./api/external/lableController'));
 
 
 
