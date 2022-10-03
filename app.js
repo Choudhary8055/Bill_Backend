@@ -2,13 +2,15 @@ const express = require('express');
 const app = express();
 // const Label = require('./model/Labels');
 const cors = require('cors');
-
+const bodyParser = require('body-parser');
 require('./config/config');
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
 
-app.use(require('./api/external/lableController'));
+app.use('/',require('./router/LableRouter'));
+
 
 
 
