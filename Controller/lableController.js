@@ -2,9 +2,6 @@ const express = require('express');
 const lableDeo = require('../dao/Lable');
 const Lable = require('../model/Labels');
 
-
-
-
 //addData
 exports.addLable = async (req, res) => {
 try{
@@ -26,10 +23,10 @@ try{
 //get all data
 exports.getData = async (req, res) => {
 	try {
-   
-     const data = await lableDeo.getFetchData();
+   const {page = 1, limit = 5} = req.query;
+     const data = await lableDeo.getFetchData().limit(limit * 1).skip((page-1)* limit);
      
-		res.status(200).json(data);
+		res.status(200).json({total:data.length, data});
 	} catch (error) {
 		console.log(error);
 		res.status(400).json({message: error.message});
@@ -52,32 +49,19 @@ exports.getData = async (req, res) => {
      
 
 //update data
- exports.updateById = async (req, res) => {
+exports.updateWithId = async (req, res) => {
 	try {
-	    const {lable, amount } = req.body;
-         const data = await lableDeo.getLableById(
-            req.params.id,
-         );
-	
-		let oldDataResponse;
-		if (data) {
-		oldDataResponse = await lableDeo.updateById(lable, amount, updatefrom);
-		}
-//   const updated = await lableDeo.findByIdAndUpdate(id, req.body, { new: true });
-  const updated = await lableDeo.getLableById(id, req.body, { new: true });
+		const { id } = req.params;
 
-		res.status(200).json({ success: true, updated, oldDataResponse });
+		const { oldData, updatedData } = await lableDeo.updateById(req.body, id);
+
+		res.status(200).json({ success: true, oldData, updatedData });
 	} catch (error) {
 		console.log(error);
-		res.status(400).json({message: error.message});
+		res.status(400).json({ message: error.message });
 	}
 };
 
-
-
-
-
-//
 //search by lable 
 exports.searchByLable = async (req, res) => {
 		try {
@@ -89,27 +73,9 @@ exports.searchByLable = async (req, res) => {
 		}
 	};
    
-//pagination api
-exports.getPagination = async (req, res)=>{
-    try{
-        const pageNo = parseInt(req.query.pageNo);
-        const pageSize = parseInt(req.query.pageSize);
-        const allPage = await lableDeo.getAll(pageNo, pageSize);
-        res.status(200).json({
-            allPage,
-            data:{
-                nextPage : pageNo+1,
-                pageSize: pageSize,
-                all_size: allPage.length === pageSize,
-            }
-        })
-    }catch(error){
-        res.status(400).json({message: error.message});
-    }
-}
 
 
-//for update 
+
 exports.getDataById = async (req, res) => {
 				try {
 				 const data = await lableDeo.getDataById(req.params.id);
@@ -123,28 +89,4 @@ exports.getDataById = async (req, res) => {
 				}
 			};
 
-
-// exports.addLable = async (req, resp) => {
-// 	try {
-// 		let user = new Label({
-// 			lable: req.body.lable,
-// 			amount: req.body.amount
-// 		});
-
-// 		let result = await user.save();
-
-// 		console.log(result);
-// 		resp.send(result);
-// 	} catch (error) {
-// 		console.log(error);
-// 		resp.status(400).json(error);
-// 	}
-// };
-
-// lableRouter.post('/addlable', addLable);
-
-
-// module.exports = {
-
-// }
 

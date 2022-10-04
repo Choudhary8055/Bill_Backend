@@ -14,13 +14,15 @@ const ProductSchema = mongoose.Schema({
 		type: Date,
 		default: Date.now()
 	}, 
-	updatefrom: {
-		type: String
-	},
-	// history:[
-		
-
-	// ]
+	history: [
+		{
+			type: Object
+		}
+	],
+	isDeleted: {
+		type: Boolean,
+		default: false
+	}
 		
 });
 

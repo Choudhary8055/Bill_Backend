@@ -10,7 +10,7 @@ const dataFromController = require('../Controller/lableController');
 
 router.post('/addlable', dataFromController.addLable);
 router.get('/getdata', dataFromController.getData);
-router.get('/pagination', dataFromController.getPagination);
+// router.get('/pagination', dataFromController.getPagination);
 router.put('/update/:id', dataFromController.updateById);
 router.delete('/delete/:id', dataFromController.deleteLable);
 router.get('/getDataById/:id', dataFromController.getDataById);
