@@ -1,13 +1,15 @@
 const moduleLable = require('../model/Labels');
-
-
+// const router = require('../router/LableRouter');
 
 exports.createLable = async (lable, amount) => {
-	return await moduleLable.create({
+  return await moduleLable.create({
 		lable: lable,
 		amount: amount
 	});
 };
+
+
+
 
 exports.getLableById = async (id)=>{
 	return await moduleLable.findById(id).lean();
@@ -29,8 +31,10 @@ exports.updateById = async (data, id) => {
 };
 
 
-exports.getFetchData = async (id)=>{
-return await moduleLable.find();
+exports.getFetchData = async (page, limit)=>{
+	const skip= (page)*limit;
+  return await moduleLable.find().limit(limit).skip(skip);
+
 }
 
 
@@ -40,7 +44,7 @@ return await moduleLable.find();
 // };
 
 exports.findTaskAndDelete = async (id) => {
-	return await moduleLable.updateById(id, { isDeleted: true });
+	return await moduleLable.findByIdAndUpdate(id, { isDeleted: true });
 };
 
 exports.getDataById = async(id)=>{
